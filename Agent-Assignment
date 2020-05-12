@@ -1,0 +1,85 @@
+import UIKit
+
+//Step 1 //
+let Agent1 = (coverName: "Ethan Hunt",realName: "Tom Cruise",accessLevel: 8,compromised: false)
+let Agent2 = (coverName: "Jim Phelps", realName: "Jon Voight", accessLevel: 9, compromised: true)
+let Agent3 = (coverName: "Claire Phelps", realName: "Emmanuelle Beart", accessLevel: 5, compromised: false)
+let Agent4 = (coverName: "Eugene Kittridge", realName: "Henry Czerny", accessLevel: 10, compromised: true)
+let Agent5 = (coverName: "Franz Krieger", realName: "Jean Reno", accessLevel: 4, compromised: false)
+let Agent6 = (coverName: "Luther Stickell", realName: "Ving Rhames", accessLevel: 4, compromised: false)
+let Agent7 = (coverName: "Sarah Davies", realName: "Kristin Scott Thomas", accessLevel: 5, compromised: true)
+let Agent8 = (coverName: "Max RotGrab", realName: "Vanessa Redgrave", accessLevel: 4, compromised: false)
+let Agent9 = (coverName: "Hannah Williams", realName: "Ingeborga Dapkūnaitė", accessLevel: 5, compromised: true)
+let Agent10 = (coverName: "Jack Harmon", realName: "Emilio Estevez", accessLevel: 6, compromised: true)
+let Agent11 = (coverName: "Frank Barnes", realName: "Dale Dye", accessLevel: 9, compromised: false)
+
+///Step 2 ///
+let agentList = [Agent1, Agent2, Agent3, Agent4, Agent5, Agent6, Agent7, Agent8, Agent9, Agent10, Agent11]
+
+///Step 3 //
+func compromisedAgentCount() -> Int {
+    var count = 0;
+
+    agentList.forEach{
+        if $0.compromised{
+            count += 1;
+        }
+    }
+    return (count);
+}
+
+///Step 4 ///
+print("\(compromisedAgentCount()) agents have been compromised!" );
+
+
+// Step 5 ///
+func findCleanAgents()-> [(coverName: String, realName: String, accessLevel: Int, compromised: Bool)]{
+    let uncompromisedAgents = agentList.filter{$0.compromised == false};
+    uncompromisedAgents.forEach{ print($0.coverName)};
+    return(uncompromisedAgents);
+}
+// Step 6 //
+
+print("\(findCleanAgents().count) clean agents out of \(agentList.count) total agents.")
+
+// Step 7 //
+
+
+func findHighRisk(){
+    agentList.filter{$0.accessLevel > 7}.forEach{
+        if ($0.compromised){
+            print("\($0.realName), level: \($0.accessLevel) **WARNING** **COMPROMISED**");
+        }
+        else{
+            print("\($0.realName), level: \($0.accessLevel)");
+        }
+    }
+}
+// Step 8 //
+
+func findTotalLowMidHighLevelAgents(){
+    var agentsByRisk:[[(coverName: String, realName: String, accessLevel: Int, compromised: Bool)]] = [[],[],[]];
+
+    agentList.forEach{
+        switch $0.accessLevel{
+        case 1...4:
+            agentsByRisk[0].append($0);
+        case 5...7:
+            agentsByRisk[1].append($0);
+        case 8...10:
+            agentsByRisk[2].append($0);
+        default:
+            break;
+        };
+    };
+    print("\(agentsByRisk[0].count) low level agents, \(agentsByRisk[1].count) mid level agents, and \(agentsByRisk[2].count) high level agents");
+}
+// Step 10 /// 
+
+func printSortedAgentListByAccessLevel(){
+    let sortedAgentList = agentList.sorted(by: {$0.accessLevel < $1.accessLevel})
+    sortedAgentList.forEach{
+      print("\($0.coverName), level: \($0.accessLevel)");
+    };
+}
+printSortedAgentListByAccessLevel();
